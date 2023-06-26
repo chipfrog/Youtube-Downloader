@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    downloadVideo: (url) => ipcRenderer.invoke('get-video', url)
+    downloadVideo: (url) => ipcRenderer.invoke('download-video', url),
+    setTargetDirectory: () => ipcRenderer.invoke('set-target-dir')
 })

@@ -9,6 +9,8 @@
   "author": "Chipfrog",
   "license": "ISC",
   "dependencies": {
+    "ffmpeg-static": "^5.1.0",
+    "fluent-ffmpeg": "^2.1.2",
     "ytdl-core": "^4.11.4"
   },
   "devDependencies": {
