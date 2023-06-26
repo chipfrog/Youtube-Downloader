@@ -4,9 +4,31 @@
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
         <title>Tube Down</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="container">
+            <button id="settings-btn" type="button">Settings</button>
+            <div id="sidepanel">
+                <h1 id="settings-title">Settings</h1>
+                <div id="setting-selection">
+                    <p>Download Quality</p>
+                    <input type="radio" id="high-quality" name="quality_setting" value="Highest">
+                    <label class="settings-text" for="high-quality">Highest</label>
+                    <br>
+                    <input type="radio" id="normal-quality" name="quality_setting" value="Normal">
+                    <label class="settings-text" for="normal-quality">Normal (720p)</label>
+                    <br>
+                    <p>Output format</p>
+                    <input type="radio" id="output-mp4" name="output-format" value="mp4">
+                    <label for="output-mp4">mp4</label>
+                    <br>
+                    <input type="radio" id="output-mkv" name="output-format" value="mkv">
+                    <label for="output-mkv">mkv</label>
+                </div>
+            </div>
             <img id="yt-logo" src="./assets/youtube_logo.png" alt="Youtube logo">
             <form id="downloadForm">
                 <input type="url" id="url" name="url" placeholder="URL">

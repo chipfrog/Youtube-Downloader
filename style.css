@@ -1,3 +1,6 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
 .container {
     position: absolute;
     display: flex;
@@ -17,4 +20,35 @@
 
 #target-dir {
     margin-top: 10px;
+}
+
+#sidepanel {
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    transition: 0.25s;
+    background-color: #FF0000;
+    overflow: hidden;
+    color: white;
+    align-items: center;
+}
+
+#setting-selection {
+    padding-top: 15px;
+    padding-left: 25px;
+    font-size: 20px;
+}
+
+#settings-title {
+    padding-left: 25px;
+    color: white;
+}
+
+#settings-btn {
+    top: 0;
+    left: 0;
+    position: fixed;
 }
