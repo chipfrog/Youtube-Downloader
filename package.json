@@ -1,0 +1,17 @@
+{
+  "name": "tube_down",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Chipfrog",
+  "license": "ISC",
+  "dependencies": {
+    "ytdl-core": "^4.11.4"
+  },
+  "devDependencies": {
+    "electron": "^25.2.0"
+  }
+}
