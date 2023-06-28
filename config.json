@@ -1,5 +1,6 @@
 {
-  "outputDir": "",
+  "outputDir": "/Users/juuso/Movies",
   "videoQuality": "highestvideo",
-  "audioQuality": "highestaudio"
+  "audioQuality": "highestaudio",
+  "selectedQuality": 1
 }

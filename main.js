@@ -1,5 +1,4 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
-const child_process = require('child_process')
 const path = require('path')
 const fs = require('fs')
 const ytdl = require('ytdl-core')
@@ -31,24 +30,36 @@ const createWindow = async () => {
 const downloadVideo = async (url) => {
     handleAudioAndVideoSeparately(url)
 }
-
 const getConfig = async () => {
-    let settings = await fs.promises.readFile(configPath, 'utf8', (error, settings) => {
-        if (error) {
-            console.log('Error reading config file:', error)
-        }
-    })
-    const config = JSON.parse(settings)
-    return config
+    try {
+      const settings = await fs.promises.readFile(configPath, 'utf8');
+      if (!settings) {
+        console.error('Empty config file');
+        return null; // or return a default configuration object if applicable
+      }
+      const config = JSON.parse(settings);
+      console.log('Read config:', config);
+      return config;
+    } catch (error) {
+      console.error('Error reading config file:', error);
+      throw error;
+    }
+  };
+
+const writeConfig = async (updatedConfig) => {
+    try {
+        await fs.promises.writeFile(configPath, updatedConfig, 'utf8')
+    } catch (error) {
+        console.error('Error writing config file:', error)
+        throw error
+    }
 }
 
-const writeConfig = (updatedConfig) => {
-    fs.promises.writeFile(configPath, updatedConfig, 'utf8', error => {
-        if (error) {
-            console.error('Error writing config file:', error)
-            return
-        }
-    })
+const setQuality = async (quality) => {
+    const config = await getConfig()
+    config.selectedQuality = quality
+    const updatedConfig =  JSON.stringify(config, null, 2)
+    await writeConfig(updatedConfig)
 }
 
 const downloadNormalQuality = async () => {
@@ -131,6 +142,14 @@ app.whenReady().then(() => {
 
     ipcMain.handle('set-target-dir', () => {
         return setOutputDir()
+    })
+
+    ipcMain.handle('set-quality', async (event, quality) => {
+        console.log('setting quality:')
+        console.log(quality);
+        await setQuality(quality)
+        const settings = await getConfig()
+        return settings
     })
 
     ipcMain.handle('fetch-settings', async () => {
