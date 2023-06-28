@@ -9,7 +9,7 @@ const ffmpeg = require('fluent-ffmpeg')
 process.env.FFMPEG_PATH = ffmpegPath
 const configPath = path.join(__dirname, 'config.json')
 
-const createWindow = () => {
+const createWindow = async () => {
     const win = new BrowserWindow({
         // Kokeile muuttaa preload.js pathia ja katso toimiiko
         webPreferences: {
@@ -23,17 +23,15 @@ const createWindow = () => {
         maxWidth: 800,
         icon: __dirname + '/assets/download_icon.png'
     })
-
     win.loadFile('index.html')
     win.removeMenu()
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
 }
 
 const downloadVideo = async (url) => {
     handleAudioAndVideoSeparately(url)
 }
 
-// Gets currently asked setting from config.json
 const getConfig = async () => {
     let settings = await fs.promises.readFile(configPath, 'utf8', (error, settings) => {
         if (error) {
@@ -44,6 +42,20 @@ const getConfig = async () => {
     return config
 }
 
+const writeConfig = (updatedConfig) => {
+    fs.promises.writeFile(configPath, updatedConfig, 'utf8', error => {
+        if (error) {
+            console.error('Error writing config file:', error)
+            return
+        }
+    })
+}
+
+const downloadNormalQuality = async () => {
+    const config = await getConfig()
+    const filename = 'temp.mp4'
+    ytdl(url).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
+}
 const handleAudioAndVideoSeparately = async (url) => {
     try {
         const config = await getConfig()
@@ -92,34 +104,22 @@ const getInfo = async (url) => {
     return info
 }
 
-
-const setOutputDir = () => {
-    dialog.showOpenDialog({
+const setOutputDir = async () => {
+    const config = await getConfig()
+    
+    await dialog.showOpenDialog({
         properties: ['openDirectory']
     }).then(result => {
         if(!result.canceled && result.filePaths.length > 0) {
             const selectedDir = result.filePaths[0]
-            fs.readFile(configPath, 'utf8', (error, settings) => {
-                if (error) {
-                    console.error('Error reading config file:', error)
-                }
-                const config = JSON.parse(settings)
-                config.outputDir = selectedDir
-                const updatedConfig = JSON.stringify(config, null, 2)
-
-                fs.writeFile(configPath, updatedConfig, 'utf8', error => {
-                    if (error) {
-                        console.error('Error writing config file:', error)
-                        return
-                    }
-                    console.log('Config file updated!')
-                    return path
-                })
-            })
+            config.outputDir = selectedDir
+            const updatedConfig = JSON.stringify(config, null, 2)
+            writeConfig(updatedConfig)
         }
     }).catch(error => {
         console.error('Error: ', error)
     })
+    return config.outputDir
 } 
 
 app.whenReady().then(() => {
@@ -130,7 +130,11 @@ app.whenReady().then(() => {
     })
 
     ipcMain.handle('set-target-dir', () => {
-        setOutputDir()
+        return setOutputDir()
     })
 
+    ipcMain.handle('fetch-settings', async () => {
+        const settings = await getConfig()
+        return settings
+    })
 })

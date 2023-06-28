@@ -1,6 +1,5 @@
 {
-  "outputDir": null,
+  "outputDir": "",
   "videoQuality": "highestvideo",
   "audioQuality": "highestaudio"
-
 }

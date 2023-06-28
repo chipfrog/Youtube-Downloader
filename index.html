@@ -1,7 +1,7 @@
 <!DOCTYPE html>
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"> " >
         <title>Tube Down</title>
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,8 +12,13 @@
         <div class="container">
             <button id="settings-btn" type="button">Settings</button>
             <div id="sidepanel">
+                <button id="close-btn">Close</button>
                 <h1 id="settings-title">Settings</h1>
                 <div id="setting-selection">
+                    <p>Output Directory</p>
+                    <input type="string" id="chosen-directory" value="" readonly>
+                    <button id="target-btn" type="button" for="chosen-directory">...</button>
+                    <br>
                     <p>Download Quality</p>
                     <input type="radio" id="high-quality" name="quality_setting" value="Highest">
                     <label class="settings-text" for="high-quality">Highest</label>
@@ -21,12 +26,12 @@
                     <input type="radio" id="normal-quality" name="quality_setting" value="Normal">
                     <label class="settings-text" for="normal-quality">Normal (720p)</label>
                     <br>
-                    <p>Output format</p>
-                    <input type="radio" id="output-mp4" name="output-format" value="mp4">
-                    <label for="output-mp4">mp4</label>
+                    <p>Output type</p>
+                    <input type="radio" id="output-both" name="output-format" value="mp4">
+                    <label for="output-both">Video and Audio</label>
                     <br>
                     <input type="radio" id="output-mkv" name="output-format" value="mkv">
-                    <label for="output-mkv">mkv</label>
+                    <label for="output-mkv">Audio only</label>
                 </div>
             </div>
             <img id="yt-logo" src="./assets/youtube_logo.png" alt="Youtube logo">
@@ -34,8 +39,8 @@
                 <input type="url" id="url" name="url" placeholder="URL">
                 <button type="button" id="download-btn">Download</button>
                 <br>
-                <input type="string" id="target-dir" name="target-dir" placeholder="Output Directory">
-                <button id="target-btn" type="button">Target</button>
+                <!-- <input type="string" id="target-dir" name="target-dir" placeholder="Output Directory">
+                <button id="target-btn" type="button">Target</button> -->
             </form>
         </div>
         <script src="./renderer.js"></script>
