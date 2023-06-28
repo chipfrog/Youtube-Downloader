@@ -24,11 +24,16 @@ const createWindow = async () => {
     })
     win.loadFile('index.html')
     win.removeMenu()
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 }
 
 const downloadVideo = async (url) => {
-    handleAudioAndVideoSeparately(url)
+    const config = await getConfig()
+    if (config.selectedQuality == 0) {
+        await downloadNormalQuality(url)
+    } else if (config.selectedQuality == 1) {
+        await handleAudioAndVideoSeparately(url)
+    }
 }
 const getConfig = async () => {
     try {
@@ -62,10 +67,10 @@ const setQuality = async (quality) => {
     await writeConfig(updatedConfig)
 }
 
-const downloadNormalQuality = async () => {
+const downloadNormalQuality = async (url) => {
     const config = await getConfig()
     const filename = 'temp.mp4'
-    ytdl(url).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
+    ytdl(url, { filter: 'audioandvideo' }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
 const handleAudioAndVideoSeparately = async (url) => {
     try {
