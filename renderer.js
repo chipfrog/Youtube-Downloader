@@ -14,8 +14,10 @@ document.getElementById('target-btn').addEventListener('click', async () => {
 document.getElementById('settings-btn').addEventListener('click', () => {
     if (settingsOn) {
         document.getElementById('sidepanel').style.width = "0"
+        document.getElementById('close-btn').style.left = "0"
     } else {
         document.getElementById('sidepanel').style.width = "250px"
+        document.getElementById('close-btn').style.left = "200px"
     }
     settingsOn = !settingsOn
 })

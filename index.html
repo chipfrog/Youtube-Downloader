@@ -1,46 +1,51 @@
 <!DOCTYPE html>
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"> " >
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com">
         <title>Tube Down</title>
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     </head>
     <body>
         <div class="container">
-            <button id="settings-btn" type="button">Settings</button>
+            
+                <ul id="navbar">
+                    <li id="hamburger" class="material-symbols-outlined">menu</li>
+                </ul>
+            
+            <button id="settings-btn" class="material-symbols-outlined" type="button">menu</button>
             <div id="sidepanel">
-                <button id="close-btn">Close</button>
-                <h1 id="settings-title">Settings</h1>
-                <div id="setting-selection">
-                    <p>Output Directory</p>
-                    <input type="string" id="chosen-directory" value="" readonly>
-                    <button id="target-btn" type="button" for="chosen-directory">...</button>
-                    <br>
-                    <p>Download Quality</p>
-                    <input type="radio" id="high-quality" name="quality_setting" value="Highest">
-                    <label class="settings-text" for="high-quality">Highest</label>
-                    <br>
-                    <input type="radio" id="normal-quality" name="quality_setting" value="Normal">
-                    <label class="settings-text" for="normal-quality">Normal (720p)</label>
-                    <br>
-                    <p>Output type</p>
-                    <input type="radio" id="output-both" name="output-format" value="mp4">
-                    <label for="output-both">Video and Audio</label>
-                    <br>
-                    <input type="radio" id="output-mkv" name="output-format" value="mkv">
-                    <label for="output-mkv">Audio only</label>
+                <div id="sidepanel-content">
+                    <button id="close-btn" class="material-symbols-outlined">close</button>
+                    <h1 id="settings-title">Settings</h1>
+                    <div id="setting-selection">
+                        <p>Output Directory</p>
+                        <input type="string" id="chosen-directory" value="" readonly>
+                        <button id="target-btn" type="button" for="chosen-directory">...</button>
+                        <br>
+                        <p>Download Quality</p>
+                        <input type="radio" id="high-quality" name="quality_setting" value="Highest">
+                        <label class="settings-text" for="high-quality">Highest</label>
+                        <br>
+                        <input type="radio" id="normal-quality" name="quality_setting" value="Normal">
+                        <label class="settings-text" for="normal-quality">Normal (720p)</label>
+                        <br>
+                        <p>Output type</p>
+                        <input type="radio" id="output-both" name="output-format" value="mp4">
+                        <label for="output-both">Video and Audio</label>
+                        <br>
+                        <input type="radio" id="output-mkv" name="output-format" value="mkv">
+                        <label for="output-mkv">Audio only</label>
+                    </div>
                 </div>
             </div>
             <img id="yt-logo" src="./assets/youtube_logo.png" alt="Youtube logo">
             <form id="downloadForm">
                 <input type="url" id="url" name="url" placeholder="URL">
                 <button type="button" id="download-btn">Download</button>
-                <br>
-                <!-- <input type="string" id="target-dir" name="target-dir" placeholder="Output Directory">
-                <button id="target-btn" type="button">Target</button> -->
             </form>
         </div>
         <script src="./renderer.js"></script>
