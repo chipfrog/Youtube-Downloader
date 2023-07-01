@@ -40,10 +40,16 @@
                 </div>
             </div>
             <img id="yt-logo" src="./assets/youtube_logo.png" alt="Youtube logo">
-            <form id="downloadForm">
-                <input type="url" id="url" name="url" placeholder="URL">
-                <button type="button" id="download-btn">Download</button>
-            </form>
+            <div id="downloadform-container">
+                <form id="downloadForm">
+                    <input type="url" id="url" name="url" placeholder="URL">
+                    <button type="button" id="download-btn">Download</button>
+                </form>
+            </div>
+            <br>
+            <div id="downloadbar-container">
+                <div id="downloadbar"></div>
+            </div>
         </div>
         <script src="./renderer.js"></script>
     </body>

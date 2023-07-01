@@ -15,6 +15,7 @@ input {
 .container {
     position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     top: 0;
@@ -24,9 +25,8 @@ input {
 }
 
 #yt-logo {
-   max-width: 35%;
-   position: absolute;
-   top: 180px;
+    margin-bottom: 20px;
+    max-width: 35%;
 }
 
 #target-dir {
@@ -106,4 +106,49 @@ input {
 #settings-title {
     padding-left: 25px;
     color: white;
+}
+
+#url {
+    flex: 1;
+}
+
+#downloadform-container {
+    width: 300px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+#downloadForm {
+    width: 100%;
+    min-width: 100%;
+    display: flex;
+}
+
+#download-btn {
+    width: auto;
+    flex: 0 0 auto;
+    margin-left: 5px;
+}
+
+#downloadbar-container {
+    margin-top: 50px;
+    width: 300px;
+    min-width: 300px;
+    height: 15px;
+    border-radius: 5px;
+    border: 2px gray solid;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#downloadbar {
+    height: 100%;
+    width: 50%;
+    box-sizing: border-box;
+    background-color: lime;
 }
