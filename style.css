@@ -39,16 +39,26 @@ input {
     position: fixed;
     width: 100%;
     height: 35px;
-    background-color: aqua;
-}
-
-.li {
-    height: 100%;
-    width: 50px;
-}
-
-.li:hover {
     background-color: #FF0000;
+    margin: 0;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+}
+
+#navbar ul {
+    display: inline-block;
+    justify-content: left;
+}
+
+#navbar li {
+    margin-left: 5px;
+    color: white;
+}
+
+#navbar li:hover {
+    background-color: #c90202;
+    cursor: pointer;
 }
 
 #sidepanel {
@@ -72,6 +82,14 @@ input {
     overflow: hidden;
     transition: left 0.25s;
     margin: 5px;
+    color: white;
+    background-color: transparent;
+    border-width: 0;
+}
+
+#close-btn:hover {
+    cursor: pointer;
+    background-color: #c90202;
 }
 
 #sidepanel-content {
@@ -88,10 +106,4 @@ input {
 #settings-title {
     padding-left: 25px;
     color: white;
-}
-
-#settings-btn {
-    top: 0;
-    left: 0;
-    position: fixed;
 }

@@ -12,21 +12,14 @@ document.getElementById('target-btn').addEventListener('click', async () => {
 })
 
 document.getElementById('settings-btn').addEventListener('click', () => {
-    if (settingsOn) {
-        document.getElementById('sidepanel').style.width = "0"
-        document.getElementById('close-btn').style.left = "0"
-    } else {
-        document.getElementById('sidepanel').style.width = "250px"
-        document.getElementById('close-btn').style.left = "200px"
-    }
-    settingsOn = !settingsOn
+    document.getElementById('sidepanel').style.width = "250px"
+    document.getElementById('close-btn').style.left = "200px"
+    document.getElementById('navbar').style.backgroundColor = "#c90202"  
 })
 
 document.getElementById('close-btn').addEventListener('click', () => {
-    if (settingsOn) {
-        document.getElementById('sidepanel').style.width = "0"
-        settingsOn = false
-    }
+    document.getElementById('sidepanel').style.width = "0"
+    document.getElementById('navbar').style.backgroundColor = "#FF0000"    
 })
 
 document.getElementById('high-quality').addEventListener('click', async () => {
