@@ -1,5 +1,11 @@
 let settingsOn = false
 
+window.electronAPI.on('downloaded-status', (event, data) => {
+    console.log('received data: ');
+    console.log(data);
+    document.getElementById('downloadbar').style.width = data.toString() + "%"
+})
+
 document.getElementById('download-btn').addEventListener('click', async () => {
     let formData = new FormData(document.getElementById('downloadForm'))
     let url = formData.get('url')
@@ -43,7 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Fetched settings:');
     console.log(response);
 })
-
 
 
 

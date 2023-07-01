@@ -10,7 +10,6 @@ const configPath = path.join(__dirname, 'config.json')
 
 const createWindow = async () => {
     const win = new BrowserWindow({
-        // Kokeile muuttaa preload.js pathia ja katso toimiiko
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         },
@@ -70,7 +69,13 @@ const setQuality = async (quality) => {
 const downloadNormalQuality = async (url) => {
     const config = await getConfig()
     const filename = 'temp.mp4'
-    ytdl(url, { filter: 'audioandvideo' }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
+    const win = BrowserWindow.getFocusedWindow()
+    const video = ytdl(url)
+    video.on('progress', (chunkLength, downloaded, total) => {
+        const percent = Math.round(downloaded / total * 100)
+        console.log(percent);
+        win.webContents.send('downloaded-status', percent)
+    }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
 const handleAudioAndVideoSeparately = async (url) => {
     try {
