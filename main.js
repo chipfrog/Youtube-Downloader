@@ -70,11 +70,11 @@ const downloadNormalQuality = async (url) => {
     const config = await getConfig()
     const filename = 'temp.mp4'
     const win = BrowserWindow.getFocusedWindow()
-    const video = ytdl(url)
+    const video = ytdl(url, { filter: 'audioandvideo' })
     video.on('progress', (chunkLength, downloaded, total) => {
         const percent = Math.round(downloaded / total * 100)
         console.log(percent);
-        win.webContents.send('downloaded-status', percent)
+        win.webContents.send('downloaded-status', { percent, downloaded, total })
     }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
 const handleAudioAndVideoSeparately = async (url) => {
