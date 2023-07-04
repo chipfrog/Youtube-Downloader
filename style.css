@@ -135,7 +135,6 @@ input {
 
 #downloadbar-container {
     display: none;
-    margin-top: 50px;
     width: 300px;
     min-width: 300px;
     height: 15px;
@@ -145,10 +144,12 @@ input {
     background-color: #f1f1f1;
     margin-left: 0;
     padding-left: 0;
+
 }
 
-#download-text {
-    margin-bottom: 30px;
+#download-status {
+    margin-top: 30px;
+    text-align: center;
 }
 
 #downloadbar {

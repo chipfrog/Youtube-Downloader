@@ -1,7 +1,15 @@
 let settingsOn = false
 
 window.electronAPI.on('downloaded-status', (event, data) => {
+    const downloadedMegabytes = (data.downloaded/1000000).toFixed(2).toString()
+    const totalMegabytes = (data.total/1000000).toFixed(2).toString()
     document.getElementById('downloadbar').style.width = data.percent.toString() + "%"
+
+    if (downloadedMegabytes == totalMegabytes) {
+        document.getElementById('download-progress-text').innerHTML = 'Complete!'
+    } else {
+        document.getElementById('download-progress-text').innerHTML = downloadedMegabytes + ' / ' + totalMegabytes + ' MB'
+    }
 })
 
 document.getElementById('download-btn').addEventListener('click', async () => {
