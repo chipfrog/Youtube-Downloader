@@ -73,19 +73,44 @@ const downloadNormalQuality = async (url) => {
     const video = ytdl(url, { filter: 'audioandvideo' })
     video.on('progress', (chunkLength, downloaded, total) => {
         const percent = Math.round(downloaded / total * 100)
-        console.log(percent);
         win.webContents.send('downloaded-status', { percent, downloaded, total })
     }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
+
 const handleAudioAndVideoSeparately = async (url) => {
     try {
         const config = await getConfig()
+        const win = BrowserWindow.getFocusedWindow()
 
         const videoPath = path.join(config.outputDir, '/temp_video.mp4')
         const audioPath = path.join(config.outputDir, '/temp_audio.mp4')
 
         const videoStream = ytdl(url, { quality: config.videoQuality })
         const audioStream = ytdl(url, { quality: config.audioQuality })
+
+        let videoTotal = 0
+        let audioTotal = 0
+        let videoDownloaded = 0
+        let audioDownloaded = 0
+
+        const sendDownloadStatus = () => {
+            const total = videoTotal + audioTotal
+            const downloaded = videoDownloaded + audioDownloaded
+            const percent = Math.round((downloaded / total) * 100)
+            win.webContents.send('downloaded-status', { percent, downloaded, total })
+        }
+
+        videoStream.on('progress', (chunkLength, downloaded, total) => {
+            videoDownloaded = downloaded
+            videoTotal = total
+            sendDownloadStatus()
+        })
+
+        audioStream.on('progress', (chunkLength, downloaded, total) => {
+            audioDownloaded = downloaded
+            audioTotal = total
+            sendDownloadStatus()
+        })
 
         await new Promise((resolve, reject) => {
             videoStream.pipe(fs.createWriteStream(videoPath))
