@@ -23,15 +23,17 @@ const createWindow = async () => {
     })
     win.loadFile('index.html')
     win.removeMenu()
-    win.webContents.openDevTools()
 }
 
 const downloadVideo = async (url) => {
+    const info = await getInfo(url)
+    console.log(info.formats)
+    const title = info.videoDetails.title
     const config = await getConfig()
     if (config.selectedQuality == 0) {
-        await downloadNormalQuality(url)
+        await downloadNormalQuality(url, title)
     } else if (config.selectedQuality == 1) {
-        await handleAudioAndVideoSeparately(url)
+        await handleAudioAndVideoSeparately(url, title)
     }
 }
 const getConfig = async () => {
@@ -66,9 +68,10 @@ const setQuality = async (quality) => {
     await writeConfig(updatedConfig)
 }
 
-const downloadNormalQuality = async (url) => {
+const downloadNormalQuality = async (url, title) => {
+    console.log('title: ' + title)
     const config = await getConfig()
-    const filename = 'temp.mp4'
+    const filename = `${title}.mp4`
     const win = BrowserWindow.getFocusedWindow()
     const video = ytdl(url, { filter: 'audioandvideo' })
     video.on('progress', (chunkLength, downloaded, total) => {
@@ -77,7 +80,7 @@ const downloadNormalQuality = async (url) => {
     }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
 
-const handleAudioAndVideoSeparately = async (url) => {
+const handleAudioAndVideoSeparately = async (url, title) => {
     try {
         const config = await getConfig()
         const win = BrowserWindow.getFocusedWindow()
@@ -123,7 +126,7 @@ const handleAudioAndVideoSeparately = async (url) => {
                 .on('finish', resolve)
                 .on('error', reject)
         })
-        const mergedFile = 'combined.mp4'
+        const mergedFile = `${title}.mp4`
 
         await new Promise((resolve, reject) => {
             ffmpeg()
@@ -144,7 +147,7 @@ const handleAudioAndVideoSeparately = async (url) => {
 }
 
 const getInfo = async (url) => {
-    const info = await ytdl.getInfo(url)
+    const info = await ytdl.getBasicInfo(url)
     console.log('GOT INFO')
     console.log(info)
     return info
