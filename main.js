@@ -23,6 +23,7 @@ const createWindow = async () => {
     })
     win.loadFile('index.html')
     win.removeMenu()
+    win.webContents.openDevTools()
 }
 
 const downloadVideo = async (url) => {

@@ -59,5 +59,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log(response);
 })
 
+document.getElementById("output-both").addEventListener('change', checkSelection)
+document.getElementById("output-audio").addEventListener('change', checkSelection)
+
+function checkSelection(event) {
+    let selectedOption = event.target.value
+    
+    if (selectedOption == 'audio') {
+        document.getElementById('high-quality').disabled = true
+        document.getElementById('normal-quality').disabled = true
+    }
+    else if (selectedOption == 'both') {
+        document.getElementById('high-quality').disabled = false
+        document.getElementById('normal-quality').disabled = false
+    }
+}
+
 
 
