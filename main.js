@@ -71,7 +71,7 @@ const setQuality = async (quality) => {
 const downloadNormalQuality = async (url, title) => {
     console.log('title: ' + title)
     const config = await getConfig()
-    const filename = `${title}.mp4`
+    const filename = await generateFileName(url) + '.mp4'
     const win = BrowserWindow.getFocusedWindow()
     const video = ytdl(url, { filter: 'audioandvideo' })
     video.on('progress', (chunkLength, downloaded, total) => {
@@ -80,16 +80,37 @@ const downloadNormalQuality = async (url, title) => {
     }).pipe(fs.createWriteStream(path.join(config.outputDir, filename)))
 }
 
-const handleAudioAndVideoSeparately = async (url, title) => {
+const generateTimeStamp = () => {
+    const now = new Date()
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+const generateFileName = async (url) => {
+    const info = await ytdl.getInfo(url)
+    const title = info.videoDetails.title
+    const timeStamp = generateTimeStamp()
+    const fileName = `${timeStamp}-${title}`
+    
+    return fileName
+}
+
+const handleAudioAndVideoSeparately = async (url) => {
     try {
         const config = await getConfig()
         const win = BrowserWindow.getFocusedWindow()
 
-        const videoPath = path.join(config.outputDir, '/temp_video.mp4')
-        const audioPath = path.join(config.outputDir, '/temp_audio.mp4')
-
         const videoStream = ytdl(url, { quality: config.videoQuality })
         const audioStream = ytdl(url, { quality: config.audioQuality })
+
+        const videoPath = path.join(config.outputDir, '/temp_video.mp4')
+        const audioPath = path.join(config.outputDir, '/temp_audio.mp4')
 
         let videoTotal = 0
         let audioTotal = 0
@@ -126,7 +147,9 @@ const handleAudioAndVideoSeparately = async (url, title) => {
                 .on('finish', resolve)
                 .on('error', reject)
         })
-        const mergedFile = `${title}.mp4`
+        const fileName = await generateFileName(url)
+        
+        const mergedFile = `${fileName}.mp4`
 
         await new Promise((resolve, reject) => {
             ffmpeg()
