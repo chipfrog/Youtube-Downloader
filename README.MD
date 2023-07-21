@@ -7,7 +7,7 @@ Built with vanilla js, html, css and few npm packages. The app utilizes [node-yt
 ## Why?
 The purpose of this project was to get some hands on experience with Electron and vanilla js.
 
-Tasks:
+### Tasks:
 
 - [x] Download video files from given Youtube url
 - [x] Download audio files
