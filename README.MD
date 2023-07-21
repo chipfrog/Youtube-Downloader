@@ -20,4 +20,6 @@ The purpose of this project was to get some hands on experience with Electron an
 - [ ] Inform user if something goes wrong
 - [ ] Add cancel button for cancelling download without closing the app
 - [ ] Add button for opening output folder
+
+![View of the app with menu panel open](https://github.com/chipfrog/Youtube-Downloader/blob/main/screenshots/Menu_view.png)
    
