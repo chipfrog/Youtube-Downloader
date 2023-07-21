@@ -2,6 +2,6 @@
   "outputDir": "/home/chipfrog/Videos/Downloads",
   "videoQuality": "highestvideo",
   "audioQuality": "highestaudio",
-  "outputFormat": "video",
-  "selectedQuality": 0
+  "outputFormat": "audio",
+  "selectedQuality": 1
 }

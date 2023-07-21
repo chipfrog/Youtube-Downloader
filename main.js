@@ -23,7 +23,7 @@ const createWindow = async () => {
     })
     win.loadFile('index.html')
     win.removeMenu()
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 }
 
 const downloadVideo = async (url) => {
@@ -31,7 +31,7 @@ const downloadVideo = async (url) => {
     console.log(info.formats)
     const title = info.videoDetails.title
     const config = await getConfig()
-    if (config.selectedQuality == 0) {
+    if (config.selectedQuality == 0 || config.outputFormat == 'audio') {
         await downloadNormalQuality(url, title)
     } else if (config.selectedQuality == 1) {
         await handleAudioAndVideoSeparately(url, title)
@@ -77,11 +77,12 @@ const setOutputFormat = async (format) => {
 }
 
 const downloadNormalQuality = async (url, title) => {
-    console.log('title: ' + title)
     const config = await getConfig()
-    const filename = await generateFileName(url) + '.mp4'
-    const win = BrowserWindow.getFocusedWindow()
     const filter = config.outputFormat == 'audio' ? 'audioonly' : 'audioandvideo'
+    const filenameExtension = filter == 'audioonly' ? '.mp3' : '.mp4'
+
+    const filename = await generateFileName(url) + filenameExtension
+    const win = BrowserWindow.getFocusedWindow()
     const video = ytdl(url, { filter: filter })
     video.on('progress', (chunkLength, downloaded, total) => {
         const percent = Math.round(downloaded / total * 100)
