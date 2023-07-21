@@ -69,12 +69,20 @@ const setQuality = async (quality) => {
     await writeConfig(updatedConfig)
 }
 
+const setOutputFormat = async (format) => {
+    const config = await getConfig()
+    config.outputFormat = format
+    const updatedConfig = JSON.stringify(config, null, 2)
+    await writeConfig(updatedConfig)
+}
+
 const downloadNormalQuality = async (url, title) => {
     console.log('title: ' + title)
     const config = await getConfig()
     const filename = await generateFileName(url) + '.mp4'
     const win = BrowserWindow.getFocusedWindow()
-    const video = ytdl(url, { filter: 'audioandvideo' })
+    const filter = config.outputFormat == 'audio' ? 'audioonly' : 'audioandvideo'
+    const video = ytdl(url, { filter: filter })
     video.on('progress', (chunkLength, downloaded, total) => {
         const percent = Math.round(downloaded / total * 100)
         win.webContents.send('downloaded-status', { percent, downloaded, total })
@@ -210,6 +218,14 @@ app.whenReady().then(() => {
         console.log('setting quality:')
         console.log(quality);
         await setQuality(quality)
+        const settings = await getConfig()
+        return settings
+    })
+
+    ipcMain.handle('set-output-format', async (event, format) => {
+        console.log('setting output format: ');
+        console.log(format);
+        await setOutputFormat(format)
         const settings = await getConfig()
         return settings
     })

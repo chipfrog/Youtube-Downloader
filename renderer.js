@@ -55,24 +55,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (response.selectedQuality == 1) {
         document.getElementById('high-quality').checked = true
     }
+    if (response.outputFormat == 'video') {
+        document.getElementById("output-both").checked = true
+    } else if (response.outputFormat == 'audio') {
+        document.getElementById("output-audio").checked = true
+        qualitySettingsDisabled(true)
+    }
     console.log('Fetched settings:');
-    console.log(response);
+    console.log(response.outputFormat);
 })
 
-document.getElementById("output-both").addEventListener('change', checkSelection)
-document.getElementById("output-audio").addEventListener('change', checkSelection)
+document.getElementById("output-both").addEventListener((event, 'change'), async (event) => checkSelection(event))
+document.getElementById("output-audio").addEventListener('change', async (event) => checkSelection(event))
 
-function checkSelection(event) {
+async function checkSelection(event) {
     let selectedOption = event.target.value
+    let response
     
     if (selectedOption == 'audio') {
-        document.getElementById('high-quality').disabled = true
-        document.getElementById('normal-quality').disabled = true
+        qualitySettingsDisabled(true)
+        response = await window.electronAPI.setOutputFormat('audio')
+        console.log(response);
+        
     }
     else if (selectedOption == 'both') {
-        document.getElementById('high-quality').disabled = false
-        document.getElementById('normal-quality').disabled = false
+        qualitySettingsDisabled(false)
+        response = await window.electronAPI.setOutputFormat('video')
+        console.log(response);
     }
+}
+
+function qualitySettingsDisabled(status) {
+    document.getElementById('high-quality').disabled = status
+    document.getElementById('normal-quality').disabled = status
 }
 
 
