@@ -1,7 +1,11 @@
 # Youtube Downloader
 
-Small and simple Electron app for downloading video and audio files from Youtube.
+## What?
+A Small and simple Electron app for downloading video (mp4) and audio (mp3) files from Youtube.
 Built with vanilla js, html, css and few npm packages. The app utilizes [node-ytdl-core](https://github.com/fent/node-ytdl-core) for communication with Youtube.
+
+## Why?
+The purpose of this project was to get some hands on experience with Electron and vanilla js.
 
 Tasks:
 
