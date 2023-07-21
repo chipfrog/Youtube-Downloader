@@ -1,1 +1,19 @@
-# Tube_Down
+# Youtube Downloader
+
+Small and simple Electron app for downloading video and audio files from Youtube.
+Built with vanilla js, html, css and few npm packages. The app utilizes [node-ytdl-core](https://github.com/fent/node-ytdl-core) for communication with Youtube.
+
+Tasks:
+
+- [x] Download video files from given Youtube url
+- [x] Download audio files
+- [x] Add sidemenu for settings
+- [x] Read/write settings to/from config file
+- [x] Change quality settings: normal - high
+- [x] Choose output location
+- [x] Show download progress in downloadbar
+- [ ] Add error handling
+- [ ] Inform user if something goes wrong
+- [ ] Add cancel button for cancelling download without closing the app
+- [ ] Add button for opening output folder
+   
